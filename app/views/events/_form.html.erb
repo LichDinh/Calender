@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@event, :url => (@event.new_record? ? events_path : event_path(@event.url_param) )) do |f| %>
+
+      <%= render 'shared/error_messages', object: f.object %>
+      
+      <div class="form-group">
+        <%= f.label :name," Event name" %>
+        <%= f.text_field :name, class: "form-control", placeholder: "Nhap ten su kien" %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :description, "Note (optional)" %>
+        <%= f.text_area :description, class: "form-control", placeholder: "Noi dung comment" %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :plan_str, @event.new_record? ? "datetime" : "datetime（add）"  %>
+        <% unless @event.new_record? %>
+        <div>
+        <h5>datetime register</h5>
+        <blockquote>
+          <%= simple_format(h @event.plan.gsub("\t", "\n")) %>
+        </blockquote>
+        </div>
+        <% end %>
+        <%= f.text_area :plan_str, class: "form-control", style: "height: 150px",
+                                   placeholder: "nhap thoi gian event" %>
+      </div>
+      <div class="form-group text-center">
+        <% unless @event.new_record? %>
+        <%= link_to "back", show_event_path(@event.url_param), class: "btn btn-large btn-default" %>
+        <% end %>
+        <%= f.submit @event.new_record? ? "create event" : "edit evnet", class: "btn btn-large btn-primary" %>
+      <div>
+    <% end %>
+  </div>
+</div>

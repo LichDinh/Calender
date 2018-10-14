@@ -1,0 +1,31 @@
+<h2><%= @event.name %> event name </h2>
+
+<h4>detail</h4>
+<blockquote>
+<p><%= simple_format( h @event.description ) %></p>
+</blockquote>
+
+<h4> <span>quantity: <%= @attendances.size %></span></h4>
+<table class="table table-striped">
+  <tr>
+    <th>Name</th>
+    <%  event_plan_str_to_arr(@event.plan).each do |p| %>
+      <th class="status"><%= p %></th>
+    <% end %>
+    <th>comment</th>
+  </tr>
+    <% @attendances.each do |a| %>
+    <tr>
+      <td><%= link_to a.user_name, edit_attendance_path(a, { :url_param => @event.url_param }) %></td>
+      <%  event_plan_str_to_arr(@event.plan).each_with_index do |p, i| %>
+        <% t =  mytime_str_to_arr(a.mytime)[i] %>
+        <td class="status"><%= render partial: "icon", locals: {t: t} %></td>
+      <% end %>
+      <td><small><%= a.comment %></small></td>
+    </tr>
+    <% end %>
+  <table>
+  <p>
+  <%= link_to "register datetime", new_attendance_path(@event.url_param), {:class => "btn  btn-primary"} %>
+  </p>
+
